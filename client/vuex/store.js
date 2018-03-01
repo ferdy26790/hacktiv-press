@@ -9,13 +9,21 @@ Vue.use(Vuex)
 
 const state = {
   user: null,
-  isLogin: false
+  isLogin: false,
+  articles: null
 }
 
 const mutations = {
   fetchUser (state, payload) {
     state.user = payload
     state.isLogin = true
+  },
+  emptyUser (state) {
+    state.user = null
+    state.isLogin = false
+  },
+  fetchArticles (state, payload) {
+    state.articles = payload
   }
 }
 
@@ -37,9 +45,28 @@ const actions = {
       .then((response) => {
         if (response.status === 200) {
           console.log(response.data)
-        } esle {
+          localStorage.setItem('token', response.data.token)
+          commit('fetchUser', response.data.user)
+        } else {
           console.log(response)
         }
+      }).catch((err) => {
+        console.error(err)
+      })
+  },
+  getAllArticles ({commit}) {
+    http.get('users/articles')
+      .then((response) => {
+        console.log(response.data)
+        commit('fetchArticles', response.data.articles)
+      }).catch((err) => {
+        console.log(err);
+      })
+  },
+  getAllCategory ({commit}, payload) {
+    http.get(`users/articles/${payload}`)
+      .then((response) => {
+        console.log(response.data)
       }).catch((err) => {
         console.error(err)
       })

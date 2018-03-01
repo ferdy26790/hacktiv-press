@@ -7,21 +7,13 @@
 
         <!-- viewport -->
         <div class="list-group col-md-8">
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+          <a v-for="article in articles" :key="article._id" href="#" class="list-group-item list-group-item-action flex-column align-items-start ">
             <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small>3 days ago</small>
+              <h5 class="mb-1">{{article.title}}</h5>
+              <small>author: {{article.author.name}}</small>
             </div>
-            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-            <small>Donec id elit non mi porta.</small>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-            <div class="d-flex w-100 justify-content-between">
-              <h5 class="mb-1">List group item heading</h5>
-              <small class="text-muted">3 days ago</small>
-            </div>
-            <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-            <small class="text-muted">Donec id elit non mi porta.</small>
+            <p class="mb-1">{{article.description}}</p>
+            <small>Read More..</small>
           </a>
         </div>
 
@@ -33,10 +25,24 @@
 <script>
 import Navbar from '@/components/Navbar'
 import ArticleList from '@/components/ArticleList'
+import { mapActions, mapState } from 'vuex'
 export default {
   components: {
     Navbar,
     ArticleList
+  },
+  computed: {
+    ...mapState([
+      'articles'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'getAllArticles'
+    ])
+  },
+  created: function () {
+    this.getAllArticles()
   }
 }
 </script>
