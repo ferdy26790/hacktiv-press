@@ -6,7 +6,7 @@
         <article-list/>
 
         <!-- viewport -->
-        <div class="list-group">
+        <div class="list-group col-md-8">
           <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
             <div class="d-flex w-100 justify-content-between">
               <h5 class="mb-1">List group item heading</h5>

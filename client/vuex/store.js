@@ -8,17 +8,42 @@ const http = axios.create({
 Vue.use(Vuex)
 
 const state = {
-  user: null
+  user: null,
+  isLogin: false
 }
 
 const mutations = {
   fetchUser (state, payload) {
     state.user = payload
+    state.isLogin = true
   }
 }
 
 const actions = {
-
+  register ({commit}, payload) {
+    http.post('register', payload)
+      .then((response) => {
+        if (response.status === 200) {
+          alert('register berhasil')
+        } else {
+          console.log(response)
+        }
+      }).catch((err) => {
+        console.error(err)
+      })
+  },
+  login ({commit}, payload) {
+    http.post('login', payload)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response.data)
+        } esle {
+          console.log(response)
+        }
+      }).catch((err) => {
+        console.error(err)
+      })
+  }
 }
 
 const store = new Vuex.Store({
@@ -26,3 +51,5 @@ const store = new Vuex.Store({
   actions,
   mutations
 })
+
+export default store

@@ -18,7 +18,7 @@
           <a class="nav-link" href="#">Pricing</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
+          <a data-target="#register" data-toggle="modal" class="nav-link" href="#">Register</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
@@ -29,17 +29,29 @@
         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Login</button>
       </form>
     </div>
+    <!-- modal -->
+    <modal-register/>
   </nav>
   <!-- end navbar -->
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+import ModalRegister from '@/components/ModalRegister'
 export default {
+  components: {
+    ModalRegister
+  },
   name: 'hello',
   data () {
     return {
       msg: 'Welcome to Your Vue.js PWA'
     }
+  },
+  methods: {
+    ...mapActions([
+      'register'
+    ])
   }
 }
 </script>
