@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-
+import router from '@/router'
 const http = axios.create({
   baseURL: 'http://localhost:3000/api'
 })
@@ -24,6 +24,10 @@ const mutations = {
   },
   fetchArticles (state, payload) {
     state.articles = payload
+  },
+  addNewArticle (state, payload) {
+    state.articles.push(payload)
+    alert('success add article')
   }
 }
 
@@ -64,11 +68,26 @@ const actions = {
       })
   },
   getAllCategory ({commit}, payload) {
-    http.get(`users/articles/${payload}`)
+    http.get(`users/articles/category/${payload}`)
       .then((response) => {
         console.log(response.data)
+        commit('fetchArticles', response.data.articles)
       }).catch((err) => {
         console.error(err)
+      })
+  },
+  addArticle ({commit}, payload) {
+    http.post(`users/articles`, payload,
+    {
+      headers: {
+        token: localStorage.getItem('token')
+      }
+    })
+      .then((response) => {
+        console.log(response.data.article)
+        commit('addNewArticle', response.data.article)
+      }).catch((err) => {
+        console.log(err)
       })
   }
 }

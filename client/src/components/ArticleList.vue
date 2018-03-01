@@ -5,13 +5,13 @@
       <a class="list-group-item list-group-item-action active" style="color: white">
         Category
       </a>
-      <a href="#" class="list-group-item list-group-item-action">
+      <a @click="getCategory('all')" class="list-group-item list-group-item-action">
         All Category
       </a>
-      <a href="#" class="list-group-item list-group-item-action">
+      <a @click="getCategory('game')" class="list-group-item list-group-item-action">
         Game
       </a>
-      <a href="#" class="list-group-item list-group-item-action">
+      <a @click="getCategory('horror')" class="list-group-item list-group-item-action">
         Horror
       </a>
     </div>
@@ -19,7 +19,29 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
+  data () {
+    return {
+      category: null
+    }
+  },
+  methods: {
+    ...mapActions([
+      'getAllCategory',
+      'getAllArticles'
+    ]),
+    getCategory (cat) {
+      this.category = cat
+      if (this.category === 'all') {
+        this.getAllArticles()
+      } else {
+        console.log(this.category)
+        this.getAllCategory(this.category)
+      }
+    }
+
+  }
 }
 </script>
 

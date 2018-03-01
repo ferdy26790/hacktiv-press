@@ -8,11 +8,13 @@
 
     <div class="collapse navbar-collapse" id="navbarColor01">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <li class="nav-item ">
+          <router-link :to="{ name: 'HomePage' }" class="nav-link">Home</router-link>
+          <!-- <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a> -->
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <router-link :to="{ name: 'AddArticle' }" class="nav-link">+ Article</router-link>
+          <!-- <a class="nav-link" href="#">Features</a> -->
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>
