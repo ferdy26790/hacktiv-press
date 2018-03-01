@@ -4,7 +4,7 @@ const getDecode = require('../helpers/getDecode')
 
 class Article {
   static getArticles (req, res) {
-    articleModel.find()
+    articleModel.find().populate('author', 'name')
     .then((articles) => {
       res.status(200).json({
         articles: articles
@@ -14,8 +14,22 @@ class Article {
       res.status(500).send(err)
     })
   }
+  static getArticlesByCategory(req, res) {
+    articleModel.find({
+      category: req.params.category
+    }).populate('author', 'name')
+      .then((articles) => {
+        res.status(200).json({
+          articles: articles
+        })
+      }).catch((err) => {
+        console.log(err)
+        res.status(500).send(err)
+      })
+  }
   static getArticle (req, res) {
     articleModel.findById(req.params.id)
+      .populate('author', 'name')
       .then((article) => {
         res.status(200).json({
           article: article
@@ -27,12 +41,22 @@ class Article {
   static addArticle (req, res) {
     getDecode(req.headers.token)
       .then((decode) => {
+        console.log(decode)
         let newArticle = new articleModel({
           title: req.body.title,
           description: req.body.description,
           category: req.body.category,
           author: decode.id
         })
+        newArticle.save()
+          .then((articleCreated) => {
+            res.status(200).json({
+              msg: "article created",
+              article: articleCreated
+            })
+          }).catch((err) => {
+            res.status(500).send(err)
+          })
       }).catch((err) => {
         console.log(err)
         res.status(500).send(err)
@@ -78,7 +102,7 @@ class Article {
               article.save()
                 .then((articleSaved) => {
                   res.status(200).json({
-                    msg: "article deleted",
+                    msg: "article updated",
                     article: articleSaved
                   })
                 }).catch((err) => {
@@ -95,3 +119,5 @@ class Article {
       })
   }
 }
+
+module.exports = Article;
